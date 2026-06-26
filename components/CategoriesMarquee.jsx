@@ -32,10 +32,10 @@ const CategoriesMarquee = () => {
             <div className="max-w-7xl mx-auto px-4 mb-6 flex items-center justify-between">
                 <div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-indigo-500 mb-1">
-                        Shop by
+                        Browse by
                     </p>
                     <h2 className="text-2xl font-bold text-slate-800">
-                         Categories
+                        Shop Categories
                     </h2>
                 </div>
                 <button
