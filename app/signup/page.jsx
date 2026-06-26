@@ -352,7 +352,7 @@ export default function Signup() {
                                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                             </svg>
                         </div>
-                        <span className="brand-logo-name"><NextCart></NextCart></span>
+                        <span className="brand-logo-name">NextCart</span>
                     </div>
 
                     <div className="brand-main">
