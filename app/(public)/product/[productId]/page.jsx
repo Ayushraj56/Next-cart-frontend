@@ -5,6 +5,7 @@ import ProductDetails from "@/components/ProductDetails";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { baseAPI } from "@/lib/constants";
 
 export default function Product() {
 
