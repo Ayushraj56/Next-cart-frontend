@@ -24,7 +24,7 @@ const CategoriesMarquee = () => {
 
     if (categories.length === 0) return null;
 
-    const doubled = [...categories, ...categories];
+    const doubled = categories.length > 3 ? [...categories, ...categories] : categories;
 
     return (
         <section className="w-full py-10 overflow-hidden">
