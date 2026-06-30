@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "ik.imagekit.io",
       },
+      {
+        protocol: "https",
+        hostname: "next-cart-backend.onrender.com",
+      },
     ],
   },
 };
