@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { baseAPI } from "@/lib/constants";
 
 const AuthContext = createContext();
 
