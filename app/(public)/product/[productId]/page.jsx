@@ -36,7 +36,7 @@ export default function Product() {
             try {
 
                 const res = await fetch(
-                    `http://localhost:3200/api/product/${productId}`,
+                    `${baseAPI}/api/product/${productId}`,
                     {
                         credentials: "include",
                     }

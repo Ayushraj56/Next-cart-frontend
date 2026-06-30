@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import axios from "axios";
+import { baseAPI } from "@/lib/constants";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ export default function Login() {
             setLoading(true);
 
             const { data } = await axios.post(
-                "http://localhost:3200/api/auth/login",
+                `${baseAPI}/api/auth/login`,
                 { email, password },
                 { withCredentials: true }
             );

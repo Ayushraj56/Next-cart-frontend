@@ -24,7 +24,7 @@ export default function Cart() {
 
     const loadCart = async () => {
         try {
-            const res = await axios.get("http://localhost:3200/api/cart", {
+            const res = await axios.get(`${baseAPI}/api/cart`, {
                 withCredentials: true,
             });
 
@@ -43,7 +43,7 @@ export default function Cart() {
 
     const handleDeleteItem = async (cartId) => {
         try {
-            await axios.delete(`http://localhost:3200/api/cart/${cartId}`, {
+            await axios.delete(`${baseAPI}/api/cart/${cartId}`, {
                 withCredentials: true,
             });
 
@@ -56,7 +56,7 @@ export default function Cart() {
 
     const loadAddresses = async () => {
         try {
-            const res = await axios.get("http://localhost:3200/api/address", {
+            const res = await axios.get(`${baseAPI}/api/address`, {
                 withCredentials: true,
             });
             dispatch(setAddresses(res.data.addresses));
@@ -132,7 +132,7 @@ export default function Cart() {
                                                 <button
                                                     onClick={async () => {
                                                         await axios.put(
-                                                            `http://localhost:3200/api/cart/decrease/${item._id}`,
+                                                            `${baseAPI}/api/cart/decrease/${item._id}`,
                                                             {},
                                                             { withCredentials: true }
                                                         );
@@ -149,7 +149,7 @@ export default function Cart() {
                                                 <button
                                                     onClick={async () => {
                                                         await axios.put(
-                                                            `http://localhost:3200/api/cart/increase/${item._id}`,
+                                                            `${baseAPI}/api/cart/increase/${item._id}`,
                                                             {},
                                                             { withCredentials: true }
                                                         );

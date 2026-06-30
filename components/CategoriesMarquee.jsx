@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { baseAPI } from "@/lib/constants";
 
 const CategoriesMarquee = () => {
 
@@ -12,7 +13,7 @@ const CategoriesMarquee = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await axios.get("http://localhost:3200/api/category");
+                const res = await axios.get(`${baseAPI}/api/category`);
                 setCategories(res.data);
             } catch (error) {
                 console.error("Failed to fetch categories:", error);

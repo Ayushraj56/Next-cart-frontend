@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { baseAPI } from "@/lib/constants";
 
 const ProductDetails = ({ product }) => {
 
@@ -32,7 +33,7 @@ const ProductDetails = ({ product }) => {
         try {
 
             await axios.post(
-                "http://localhost:3200/api/cart/add",
+                `${baseAPI}/api/cart/add`,
                 {
                     productId,
                     quantity: 1,

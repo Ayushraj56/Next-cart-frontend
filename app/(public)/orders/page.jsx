@@ -17,7 +17,7 @@ export default function Orders() {
             try {
 
                 const res = await axios.get(
-                    "http://localhost:3200/api/order/my-orders",
+                    `${baseAPI}/api/order/my-orders`,
                     {
                         withCredentials: true,
                     }

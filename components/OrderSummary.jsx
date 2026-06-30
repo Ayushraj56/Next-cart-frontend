@@ -47,7 +47,7 @@ const OrderSummary = ({ totalPrice, items }) => {
             }
 
             const res = await axios.post(
-                "http://localhost:3200/api/order/create",
+                `${baseAPI}/api/order/create`,
                 {
                     addressId: selectedAddress._id,
                     shippingCharge,
@@ -68,7 +68,7 @@ const OrderSummary = ({ totalPrice, items }) => {
     const handleRazorpayPayment = async () => {
         try {
             const res = await axios.post(
-                "http://localhost:3200/api/payment/create-payment-link",
+                `${baseAPI}/api/payment/create-payment-link`,
                 {},
                 { withCredentials: true }
             );

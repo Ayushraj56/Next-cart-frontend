@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
             try {
 
                 const res = await axios.get(
-                    "http://localhost:3200/api/auth/me",
+                    `${baseAPI}/api/auth/me`,
                     {
                         withCredentials: true,
                     }

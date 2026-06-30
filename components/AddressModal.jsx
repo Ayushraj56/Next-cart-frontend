@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { baseAPI } from "@/lib/constants";
 import { addAddress } from "@/lib/features/address/addressSlice";
 
 const AddressModal = ({ setShowAddressModal }) => {
@@ -37,7 +38,7 @@ const AddressModal = ({ setShowAddressModal }) => {
         try {
 
             const res = await axios.post(
-                "http://localhost:3200/api/address",
+                `${baseAPI}/api/address`,
                 address,
                 {
                     withCredentials: true,

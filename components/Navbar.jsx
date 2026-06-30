@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import { baseAPI } from "@/lib/constants";
 
 const Navbar = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const Navbar = () => {
 
   const loadCartCount = async () => {
     try {
-      const res = await axios.get("http://localhost:3200/api/cart", {
+      const res = await axios.get(`${baseAPI}/api/cart`, {
         withCredentials: true,
       });
       let total = 0;
@@ -63,7 +64,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:3200/api/auth/logout", {
+      await axios.post(`${baseAPI}/api/auth/logout`, {
         withCredentials: true,
       });
       localStorage.removeItem("user");
