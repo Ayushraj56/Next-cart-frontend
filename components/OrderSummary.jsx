@@ -7,6 +7,7 @@ import AddressModal from './AddressModal';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { baseAPI } from "@/lib/constants";
 
 const OrderSummary = ({ totalPrice, items }) => {
 
