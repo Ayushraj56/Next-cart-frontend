@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useDispatch } from "react-redux";
 import { setAddresses } from "@/lib/features/address/addressSlice";
+import { baseAPI } from "@/lib/constants";
 
 export default function Cart() {
 
