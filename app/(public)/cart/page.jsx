@@ -87,105 +87,100 @@ export default function Cart() {
                     linkText="Add more"
                 />
 
-                {/* ✅ flex row: table on left, OrderSummary on right */}
                 <div className="flex flex-col gap-5 lg:flex-row items-start justify-between">
 
-                    {/* ✅ Table wrapper — OrderSummary is NOT inside here */}
-                    <div className="w-full overflow-x-auto">
-                        <table className="min-w-[640px] w-full max-w-full text-slate-600 table-auto">
+                    {/* Cart items list */}
+                    <div className="w-full">
 
-                            <thead>
-                                <tr>
-                                    <th className="text-left">Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total Price</th>
-                                    <th>Remove</th>
-                                </tr>
-                            </thead>
+                        {/* Header row — hidden on mobile */}
+                        <div className="hidden sm:flex text-slate-600 font-medium border-b pb-2 mb-2">
+                            <div className="flex-1">Product</div>
+                            <div className="w-32 text-center">Quantity</div>
+                            <div className="w-28 text-center">Total Price</div>
+                            <div className="w-20 text-center">Remove</div>
+                        </div>
 
-                            <tbody>
-                                {cartArray.map((item) => (
-                                    <tr key={item._id}>
+                        {cartArray.map((item) => (
+                            <div
+                                key={item._id}
+                                className="flex flex-col sm:flex-row sm:items-center gap-3 py-4 border-b"
+                            >
+                                {/* Product info */}
+                                <div className="flex gap-3 flex-1">
+                                    <div className="flex-shrink-0 flex items-center justify-center bg-slate-100 w-16 h-16 rounded-md overflow-hidden">
+                                        <Image
+                                            src={item.productId?.images?.[0] || "/placeholder.png"}
+                                            alt={item.productId?.name || "Product"}
+                                            width={64}
+                                            height={64}
+                                            className="object-contain w-full h-full"
+                                        />
+                                    </div>
 
-                                        <td className="flex gap-3 my-4">
-                                            <div className="flex items-center justify-center bg-slate-100 w-16 h-16 rounded-md overflow-hidden">
-                                                <Image
-                                                    src={item.productId?.images?.[0] || "/placeholder.png"}
-                                                    alt={item.productId?.name || "Product"}
-                                                    width={64}
-                                                    height={64}
-                                                    className="object-contain w-full h-full"
-                                                />
-                                            </div>
+                                    <div>
+                                        <p>{item.productId?.name}</p>
+                                        <p className="text-xs text-slate-500">
+                                            {item.productId?.category?.name}
+                                        </p>
+                                        <p>{currency}{item.productId?.price}</p>
+                                    </div>
+                                </div>
 
-                                            <div>
-                                                <p>{item.productId?.name}</p>
-                                                <p className="text-xs text-slate-500">
-                                                    {item.productId?.category?.name}
-                                                </p>
-                                                <p>{currency}{item.productId?.price}</p>
-                                            </div>
-                                        </td>
+                                {/* Quantity, price, remove — row on mobile, aligned columns on desktop */}
+                                <div className="flex items-center justify-between sm:justify-start sm:gap-0 pl-[76px] sm:pl-0">
 
-                                        <td className="text-center">
-                                            <div className="flex items-center justify-center gap-3">
+                                    <div className="sm:w-32 flex items-center justify-start sm:justify-center gap-3">
+                                        <button
+                                            onClick={async () => {
+                                                await axios.put(
+                                                    `${baseAPI}/api/cart/decrease/${item._id}`,
+                                                    {},
+                                                    { withCredentials: true }
+                                                );
+                                                loadCart();
+                                                window.dispatchEvent(new Event("cartUpdated"));
+                                            }}
+                                            className="px-2 py-1 border rounded"
+                                        >
+                                            -
+                                        </button>
 
-                                                <button
-                                                    onClick={async () => {
-                                                        await axios.put(
-                                                            `${baseAPI}/api/cart/decrease/${item._id}`,
-                                                            {},
-                                                            { withCredentials: true }
-                                                        );
-                                                        loadCart();
-                                                        window.dispatchEvent(new Event("cartUpdated"));
-                                                    }}
-                                                    className="px-2 py-1 border rounded"
-                                                >
-                                                    -
-                                                </button>
+                                        <span>{item.quantity}</span>
 
-                                                <span>{item.quantity}</span>
+                                        <button
+                                            onClick={async () => {
+                                                await axios.put(
+                                                    `${baseAPI}/api/cart/increase/${item._id}`,
+                                                    {},
+                                                    { withCredentials: true }
+                                                );
+                                                loadCart();
+                                                window.dispatchEvent(new Event("cartUpdated"));
+                                            }}
+                                            className="px-2 py-1 border rounded"
+                                        >
+                                            +
+                                        </button>
+                                    </div>
 
-                                                <button
-                                                    onClick={async () => {
-                                                        await axios.put(
-                                                            `${baseAPI}/api/cart/increase/${item._id}`,
-                                                            {},
-                                                            { withCredentials: true }
-                                                        );
-                                                        loadCart();
-                                                        window.dispatchEvent(new Event("cartUpdated"));
-                                                    }}
-                                                    className="px-2 py-1 border rounded"
-                                                >
-                                                    +
-                                                </button>
+                                    <div className="sm:w-28 text-right sm:text-center font-medium sm:font-normal">
+                                        {currency}
+                                        {(item.productId.price * item.quantity).toLocaleString("en-IN")}
+                                    </div>
 
-                                            </div>
-                                        </td>
-
-                                        <td className="text-center">
-                                            {currency}
-                                            {(item.productId.price * item.quantity).toLocaleString("en-IN")}
-                                        </td>
-
-                                        <td className="text-center">
-                                            <button
-                                                onClick={() => handleDeleteItem(item._id)}
-                                                className="text-red-500"
-                                            >
-                                                <Trash2Icon size={18} />
-                                            </button>
-                                        </td>
-
-                                    </tr>
-                                ))}
-                            </tbody>
-
-                        </table>
+                                    <div className="sm:w-20 flex justify-end sm:justify-center">
+                                        <button
+                                            onClick={() => handleDeleteItem(item._id)}
+                                            className="text-red-500"
+                                        >
+                                            <Trash2Icon size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    {/* ✅ OrderSummary is a sibling to the table wrapper, not nested inside */}
+
                     <OrderSummary
                         totalPrice={totalPrice}
                         items={cartArray}
