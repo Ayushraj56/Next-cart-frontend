@@ -12,6 +12,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/backend/:path*",
+        destination: "https://next-cart-backend.onrender.com/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

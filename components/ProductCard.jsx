@@ -5,7 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 import { StarIcon } from 'lucide-react'
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, priority = false }) => {
 
     const currency =
         process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || 'Rs.'
@@ -30,6 +30,7 @@ const ProductCard = ({ product }) => {
                     className='max-h-40 w-auto group-hover:scale-110 transition duration-300'
                     src={imageUrl}
                     alt={product.name}
+                    priority={priority}
                 />
 
             </div>

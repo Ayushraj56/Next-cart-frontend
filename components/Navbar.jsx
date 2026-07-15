@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, ShoppingCart } from "lucide-react";
+import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -16,11 +16,13 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [cartCount, setCartCount] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (search.trim()) {
       router.push(`/shop?search=${search}`);
+      setMenuOpen(false);
     }
   };
 
@@ -64,12 +66,13 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${baseAPI}/api/auth/logout`, {
+      await axios.post(`${baseAPI}/api/auth/logout`, {}, {
         withCredentials: true,
       });
       localStorage.removeItem("user");
       setUser(null);
       setCartCount(0);
+      setMenuOpen(false);
       router.push("/");
       router.refresh();
     } catch (error) {
@@ -93,7 +96,6 @@ const Navbar = () => {
             <Link href="/shop">Shop</Link>
             <Link href="/orders">My Orders</Link>
 
-            {/* Search */}
             <form
               onSubmit={handleSearch}
               className="hidden xl:flex items-center w-xs text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full"
@@ -108,7 +110,6 @@ const Navbar = () => {
               />
             </form>
 
-            {/* Cart */}
             <Link href="/cart" className="relative flex items-center gap-2 text-slate-600">
               <ShoppingCart size={18} />
               Cart
@@ -123,9 +124,7 @@ const Navbar = () => {
               <div className="w-24 h-9" />
             ) : user ? (
               <div className="flex items-center gap-4">
-                <span className="font-medium text-slate-700">
-                  Hi, {user.name}
-                </span>
+                <span className="font-medium text-slate-700">Hi, {user.name}</span>
                 <button
                   onClick={handleLogout}
                   className="px-5 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full"
@@ -147,9 +146,68 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
+          </div>
 
+          {/* Mobile: cart icon + hamburger */}
+          <div className="flex items-center gap-4 sm:hidden">
+            <Link href="/cart" className="relative text-slate-600">
+              <ShoppingCart size={20} />
+              {mounted && cartCount > 0 && (
+                <span className="absolute -top-2 -right-3 text-[9px] font-bold text-white bg-red-500 min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+            <button onClick={() => setMenuOpen(!menuOpen)} className="text-slate-700">
+              {menuOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile dropdown menu */}
+        {menuOpen && (
+          <div className="sm:hidden flex flex-col gap-4 pb-6 text-slate-600">
+            <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link href="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
+            <Link href="/orders" onClick={() => setMenuOpen(false)}>My Orders</Link>
+
+            <form onSubmit={handleSearch} className="flex items-center text-sm gap-2 bg-slate-100 px-4 py-3 rounded-full">
+              <Search size={18} className="text-slate-600" />
+              <input
+                className="w-full bg-transparent outline-none placeholder-slate-600"
+                type="text"
+                placeholder="Search products"
+                value={search}
+                onChange={handleSearchChange}
+              />
+            </form>
+
+            {!mounted ? null : user ? (
+              <div className="flex items-center justify-between">
+                <span className="font-medium text-slate-700">Hi, {user.name}</span>
+                <button
+                  onClick={handleLogout}
+                  className="px-5 py-2 bg-red-500 hover:bg-red-600 text-white rounded-full"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-3">
+                <Link href="/login" onClick={() => setMenuOpen(false)} className="flex-1">
+                  <button className="w-full px-6 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-full">
+                    Login
+                  </button>
+                </Link>
+                <Link href="/signup" onClick={() => setMenuOpen(false)} className="flex-1">
+                  <button className="w-full px-6 py-2 border border-indigo-500 text-indigo-500 hover:bg-indigo-50 rounded-full">
+                    Signup
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <hr className="border-gray-300" />
     </nav>
